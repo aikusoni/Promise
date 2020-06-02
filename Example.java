@@ -57,7 +57,7 @@ public class Example {
         .onThen((p, i) -> {
             // not run cause task#2-2 error
             System.out.println("task#2-2-1 : " + (int)i);
-            p.reject(new Exception("task#2-2 error!"));  
+            p.reject(new Exception("task#2-2-1 error!"));  
         })
         .onCatch((e) -> {
             // run
