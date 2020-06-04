@@ -1,6 +1,8 @@
 public class Example {
     public static void main(String[] args) {
-        test();
+        testUsage();
+        test1();
+        test2();
     }
 
     private static void sleep(int ms) {
@@ -11,8 +13,51 @@ public class Example {
         }
     }
 
-    private static void test() {
-        System.out.println("-begin-");
+    private static void testUsage() {
+        Promise.begin("Hello")
+            .onThen((p, i) -> {
+                p.resolve((String)i + ", ");
+            })
+            .onThen((p, i) -> {
+                p.resolve((String)i + "World");
+            })
+            .onThen((p, i) -> {
+                p.resolve((String)i + "!");
+            })
+            .onThen((p, i) -> {
+                p.reject(new Exception((String)i));
+            })
+            .onCatch((error) -> {
+                System.out.println("" + error.toString());
+            });
+        
+        ///// output
+        // java.lang.Exception: Hello, World!
+    }
+
+    private static void test1() {
+        System.out.println("-test1-");
+        Promise
+            .begin(1)
+            .onThen((p, i) -> {
+                System.out.println((int)i);
+                p.resolve((int)i + 1);
+            })
+            .onThen((p, i) -> {
+                System.out.println((int)i);
+                p.resolve((int)i + 1);
+            })
+            .onCatch((error) -> {
+                System.out.println(error.toString());
+            });
+        
+        ///// output
+        // 1
+        // 2
+    }
+
+    private static void test2() {
+        System.out.println("-test2-");
         Promise p2 = Promise.onBegin(1, (p, i) -> {
             // run
             System.out.println("task#1 : " + (int)i);
@@ -65,16 +110,13 @@ public class Example {
         });
 
         sleep(5000);
-        System.out.println("-end-");
 
-        // output
-        // -begin-
+        ///// output
         // task#1 : 1
         // task#2 : 2
         // task#2-1 : 3
         // task#2-2 : 3
         // error : java.lang.Exception: task#2-2 error!
         // task#2-1-1 : 4
-        // -end-
     }
 }

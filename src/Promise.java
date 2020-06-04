@@ -3,6 +3,24 @@ import java.util.HashSet;
 
 /**
  * JAVA Promise
+ * 
+ * usage :
+ * Promise.begin("Hello")
+ *  .onThen((p, i) -> {
+ *      p.resolve((String)i + ", "); // "Hello, "
+ *  })
+ *  .onThen((p, i) -> {
+ *      p.resolve((String)i + "World"); // "Hello, World"
+ *  })
+ *  .onThen((p, i) -> {
+ *      p.resolve((String)i + "!"); // "Hello, World!"
+ *  })
+ *  .onThen((p, i) -> {
+ *      p.reject(new Exception((String)i));
+ *  })
+ *  .onCatch((error) -> {
+ *      System.out.println("" + error.toString());
+ *  });
  */
 public class Promise {
     private ObservableTaskResult prevTaskResult;
@@ -15,6 +33,18 @@ public class Promise {
 
     public interface ErrorTask {
         void run(Throwable errror);
+    }
+
+    public static Promise begin(Object input) {
+        TaskDelegator taskDelegator = new TaskDelegator(new Task() {
+            @Override
+            public void run(Publisher publisher, Object input) {
+                publisher.resolve(input);
+            }
+        });
+        Promise promise = new Promise(taskDelegator.getTaskResult());
+        taskDelegator.run(input);
+        return promise;
     }
 
     public static Promise onBegin(Object input, Task task) {
@@ -163,7 +193,11 @@ public class Promise {
         }
 
         void run(Object input) {
-            this.task.run(new Publisher(taskResult), input);
+            try {
+                this.task.run(new Publisher(taskResult), input);
+            } catch (Throwable err) {
+                error(err);
+            }
         }
 
         void error(Throwable error) {
