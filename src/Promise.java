@@ -4,7 +4,8 @@ import java.util.HashSet;
 /**
  * JAVA Promise
  * 
- * usage :
+ * Example :
+ * 
  * Promise.begin("Hello")
  *  .onThen((p, i) -> {
  *      p.resolve((String)i + ", "); // "Hello, "
@@ -21,6 +22,27 @@ import java.util.HashSet;
  *  .onCatch((error) -> {
  *      System.out.println("" + error.toString());
  *  });
+ * 
+ * The above JAVA code is similar to the below JavaScript Code.
+ * 
+ * new Promise((resolve, reject) => {
+ *      resolve('Hello');   // 'Hello'
+ * })
+ * .then((i) => {
+ *      return i + ', ';    // 'Hello, '
+ * })
+ * .then((i) => {
+ *      return i + 'World'; // 'Hello, World'
+ * })
+ * .then((i) => {
+ *      return i + '!';     // 'Hello, World!'
+ * })
+ * .then((i) => {
+ *      throw i;
+ * })
+ * .catch((err) => {
+ *      console.log('' + i);
+ * });
  */
 public class Promise {
     private ObservableTaskResult prevTaskResult;
