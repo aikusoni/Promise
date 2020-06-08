@@ -8,13 +8,13 @@ import java.util.HashSet;
  * 
  * Promise.begin("Hello")
  *  .onThen((p, i) -> {
- *      p.resolve((String)i + ", "); // "Hello, "
+ *      p.resolve((String)i + ", ");    // "Hello, "
  *  })
  *  .onThen((p, i) -> {
  *      p.resolve((String)i + "World"); // "Hello, World"
  *  })
  *  .onThen((p, i) -> {
- *      p.resolve((String)i + "!"); // "Hello, World!"
+ *      p.resolve((String)i + "!");     // "Hello, World!"
  *  })
  *  .onThen((p, i) -> {
  *      p.reject(new Exception((String)i));
@@ -22,27 +22,6 @@ import java.util.HashSet;
  *  .onCatch((error) -> {
  *      System.out.println("" + error.toString());
  *  });
- * 
- * The above JAVA code is similar to the below JavaScript Code.
- * 
- * new Promise((resolve, reject) => {
- *      resolve('Hello');   // 'Hello'
- * })
- * .then((i) => {
- *      return i + ', ';    // 'Hello, '
- * })
- * .then((i) => {
- *      return i + 'World'; // 'Hello, World'
- * })
- * .then((i) => {
- *      return i + '!';     // 'Hello, World!'
- * })
- * .then((i) => {
- *      throw i;
- * })
- * .catch((err) => {
- *      console.log('' + i);
- * });
  */
 public class Promise {
     private ObservableTaskResult prevTaskResult;

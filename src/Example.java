@@ -14,6 +14,8 @@ public class Example {
     }
 
     private static void testUsage() {
+        System.out.println("");
+        System.out.println("-testUsage-");
         Promise.begin("Hello")
             .onThen((p, i) -> {
                 p.resolve((String)i + ", ");
@@ -36,6 +38,7 @@ public class Example {
     }
 
     private static void test1() {
+        System.out.println("");
         System.out.println("-test1-");
         Promise
             .begin(1)
@@ -57,6 +60,7 @@ public class Example {
     }
 
     private static void test2() {
+        System.out.println("");
         System.out.println("-test2-");
         Promise p2 = Promise.onBegin(1, (p, i) -> {
             // run
