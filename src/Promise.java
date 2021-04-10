@@ -111,11 +111,11 @@ public class Promise {
             this.taskResult = taskResult;
         }
 
-        void resolve(Object nextInput) {
+        public void resolve(Object nextInput) {
             taskResult.setCompleted(nextInput);
         }
 
-        void reject(Throwable error) {
+        public void reject(Throwable error) {
             taskResult.setError(error);
         }
     }
